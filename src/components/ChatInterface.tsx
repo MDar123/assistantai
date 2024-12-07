@@ -23,8 +23,24 @@ export const ChatInterface = () => {
   const { toast } = useToast();
 
   const formatResponse = (text: string) => {
-    // Remove markdown-style bold asterisks
-    return text.replace(/\*\*(.*?)\*\*/g, '$1');
+    // Convert markdown-style headers
+    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    text = text.replace(/^# (.*?)$/gm, '<h1 class="text-xl font-bold mb-2">$1</h1>');
+    text = text.replace(/^## (.*?)$/gm, '<h2 class="text-lg font-semibold mb-2">$1</h2>');
+    text = text.replace(/^### (.*?)$/gm, '<h3 class="text-md font-semibold mb-2">$1</h3>');
+    
+    // Convert bullet points
+    text = text.replace(/^\* (.*?)$/gm, '<li class="ml-4">• $1</li>');
+    
+    // Convert paragraphs
+    text = text.replace(/\n\n/g, '</p><p class="mb-2">');
+    
+    // Wrap the entire text in a paragraph if it's not already wrapped
+    if (!text.startsWith('<')) {
+      text = `<p class="mb-2">${text}</p>`;
+    }
+    
+    return text;
   };
 
   const handleSend = async () => {
@@ -91,7 +107,10 @@ export const ChatInterface = () => {
                     : "bg-gradient-to-br from-gray-50 to-white border border-purple-100 text-gray-800"
                 }`}
               >
-                <p className="leading-relaxed whitespace-pre-wrap">{message.content}</p>
+                <div 
+                  className="leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: message.content }}
+                />
               </div>
             </div>
           ))}
