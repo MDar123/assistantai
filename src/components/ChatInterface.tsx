@@ -29,8 +29,8 @@ export const ChatInterface = () => {
     text = text.replace(/^## (.*?)$/gm, '<h2 class="text-lg font-semibold mb-2">$1</h2>');
     text = text.replace(/^### (.*?)$/gm, '<h3 class="text-md font-semibold mb-2">$1</h3>');
     
-    // Convert bullet points
-    text = text.replace(/^\* (.*?)$/gm, '<li class="ml-4">• $1</li>');
+    // Convert bullet points with enhanced styling
+    text = text.replace(/^\* (.*?)$/gm, '<div class="flex items-start space-x-2 mb-1"><span class="text-purple-500 mt-1">•</span><span class="flex-1">$1</span></div>');
     
     // Convert paragraphs
     text = text.replace(/\n\n/g, '</p><p class="mb-2">');
@@ -154,3 +154,4 @@ export const ChatInterface = () => {
     </div>
   );
 };
+```
