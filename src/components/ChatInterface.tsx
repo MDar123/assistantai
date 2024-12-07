@@ -154,4 +154,3 @@ export const ChatInterface = () => {
     </div>
   );
 };
-```
